@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.airrowing.club.biz.domain.mapper.ClubMemberDOMapper">
+  <resultMap id="BaseResultMap" type="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="club_id" jdbcType="BIGINT" property="clubId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="join_time" jdbcType="TIMESTAMP" property="joinTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, club_id, user_id, join_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_club_member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_club_member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    insert into t_club_member (id, club_id, user_id, 
+      join_time)
+    values (#{id,jdbcType=BIGINT}, #{clubId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{joinTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    insert into t_club_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="clubId != null">
+        club_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="joinTime != null">
+        join_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="clubId != null">
+        #{clubId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="joinTime != null">
+        #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    update t_club_member
+    <set>
+      <if test="clubId != null">
+        club_id = #{clubId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="joinTime != null">
+        join_time = #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    update t_club_member
+    set club_id = #{clubId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      join_time = #{joinTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByClubIdAndUserId" resultType="com.tongji.airrowing.club.biz.domain.dataobject.ClubMemberDO">
+    SELECT * FROM t_club_member
+    WHERE club_id = #{clubId} AND user_id = #{userId}
+  </select>
+  <select id="selectByClubIdWithPagination" parameterType="map" resultType="com.tongji.airrowing.club.biz.model.dto.ClubMemberDTO">
+    SELECT
+      cm.user_id AS userId,
+      u.nickname AS nickname,
+      u.avatar AS avatar,
+      cm.join_time AS joinTime
+    FROM t_club_member cm
+           JOIN t_user u ON cm.user_id = u.id
+    WHERE cm.club_id = #{clubId}
+    ORDER BY cm.join_time DESC
+      LIMIT #{offset}, #{size}
+  </select>
+  <delete id="deleteByClubIdAndUserId" parameterType="map">
+    DELETE FROM t_club_member
+    WHERE club_id = #{clubId} AND user_id = #{userId}
+  </delete>
+
+</mapper>

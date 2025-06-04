@@ -1,0 +1,2 @@
+com.tongji.framework.biz.context.config.ContextAutoConfiguration
+com.tongji.framework.biz.context.config.FeignContextAutoConfiguration

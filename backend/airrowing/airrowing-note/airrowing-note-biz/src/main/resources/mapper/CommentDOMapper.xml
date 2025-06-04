@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.airrowing.note.biz.domain.mapper.CommentDOMapper">
+  <resultMap id="BaseResultMap" type="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="note_id" jdbcType="BIGINT" property="noteId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, note_id, user_id, parent_id, `status`, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    insert into t_comment (id, note_id, user_id, 
+      parent_id, `status`, create_time, 
+      update_time, content)
+    values (#{id,jdbcType=BIGINT}, #{noteId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{parentId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    insert into t_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="noteId != null">
+        note_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="noteId != null">
+        #{noteId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    update t_comment
+    <set>
+      <if test="noteId != null">
+        note_id = #{noteId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    update t_comment
+    set note_id = #{noteId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongji.airrowing.note.biz.domain.dataobject.CommentDO">
+    update t_comment
+    set note_id = #{noteId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <!-- 校验笔记是否存在 -->
+  <select id="noteExists" parameterType="long" resultType="boolean">
+    SELECT COUNT(1) > 0
+    FROM t_note
+    WHERE id = #{noteId}
+    AND status = 1 <!-- 确保笔记未被删除 -->
+  </select>
+
+  <!-- 校验评论是否存在 -->
+  <select id="commentExists" parameterType="long" resultType="boolean">
+    SELECT COUNT(1) > 0
+    FROM t_comment
+    WHERE id = #{commentId}
+    AND status = 0 <!-- 确保评论未被删除 -->
+  </select>
+
+  <!-- 查询笔记发布者ID -->
+  <select id="selectNoteCreatorIdByNoteId" parameterType="long" resultType="long">
+    SELECT creator_id
+    FROM t_note
+    WHERE id = #{noteId} AND status = 1
+  </select>
+
+  <!-- 删除评论及其所有子评论（逻辑删除） -->
+  <update id="deleteCommentAndReplies" parameterType="long">
+    UPDATE t_comment
+    SET status = 1, update_time = NOW()  <!-- 逻辑删除 -->
+    WHERE id = #{commentId}
+    OR parent_id = #{commentId}
+  </update>
+
+  <select id="selectCommentsWithUserByNoteId" parameterType="map" resultType="com.tongji.airrowing.note.biz.model.vo.CommentWithUserVO">
+    SELECT
+    c.id AS commentId,
+    c.note_id AS noteId,
+    c.user_id AS userId,
+    c.parent_id AS parentId,
+    c.content AS content,
+    c.create_time AS createTime,
+    c.update_time AS updateTime,
+    u.nickname AS userName,
+    u.avatar AS userAvatar
+    FROM
+    t_comment c
+    LEFT JOIN
+    t_user u ON c.user_id = u.id
+    WHERE
+    c.note_id = #{noteId}
+    AND c.parent_id IS NULL    <!-- 一级评论 -->
+    AND c.status = 0           <!-- 评论状态为正常 -->
+    ORDER BY
+    c.create_time DESC
+    LIMIT
+    #{offset}, #{limit}
+  </select>
+
+  <select id="selectRepliesWithUserByCommentId" parameterType="long" resultType="com.tongji.airrowing.note.biz.model.vo.CommentRspVO">
+    SELECT
+    c.id AS id,
+    c.note_id AS noteId,
+    c.user_id AS userId,
+    c.parent_id AS parentId,
+    c.content AS content,
+    c.create_time AS createTime,
+    c.update_time AS updateTime,
+    u.nickname AS userName,
+    u.avatar AS userAvatar
+    FROM
+    t_comment c
+    LEFT JOIN
+    t_user u ON c.user_id = u.id
+    WHERE
+    c.parent_id = #{parentId}
+    AND c.status = 0           <!-- 评论状态为正常 -->
+    ORDER BY
+    c.create_time ASC
+  </select>
+  <select id="countCommentsByNoteId" parameterType="long" resultType="int">
+    SELECT COUNT(1)
+    FROM t_comment
+    WHERE note_id = #{noteId}
+    AND status = 0 <!-- 只统计状态正常的评论 -->
+  </select>
+
+</mapper>

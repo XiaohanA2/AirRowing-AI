@@ -1,0 +1,5 @@
+# minio (上传图片需要，需配置成自己的地址)
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: tongji_momento
+  secretKey: tongji_momento

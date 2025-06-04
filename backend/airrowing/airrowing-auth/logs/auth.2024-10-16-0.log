@@ -1,0 +1,146 @@
+2024-10-16 14:46:22.913 [main] INFO  com.tongji.airrowing.auth.DruidTests - Starting DruidTests using Java 17.0.11 with PID 14948 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 14:46:22.915 [main] INFO  com.tongji.airrowing.auth.DruidTests - The following 1 profile is active: "dev"
+2024-10-16 14:46:26.034 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 14:46:26.838 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 14:46:27.436 [main] INFO  com.tongji.airrowing.auth.DruidTests - Started DruidTests in 5.813 seconds (process running for 7.805)
+2024-10-16 14:46:28.596 [main] INFO  com.tongji.airrowing.auth.DruidTests - privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAhpwzJHk1lHsP/FNW/c2UFfPYd/pG+pJA6PACjvJL6MPiym4xpicjyLXIhXfslXb5ULAb5gmqItcYfe4V77BRWwIDAQABAkAC0OO1AKAhUg28jpXES3esmeROZjrz5PlcpiC3ktQJs39jBBrBv0L/IPSadioZoZbpmE4ReZ8Jztj1CAGDy9kBAiEA6ZiFThemJ0G0bHikr4ZjSH9odiVyMFREbEuDR9fnM4ECIQCThUi4ozoUKyVCw6wbrFt6cjI8qs2HuyzDvzb68aBC2wIgdy8opMWQMutlQQr1C9GHio/nHpDQiDQWjSKiIt/XyQECIHt/nHa+Z3PU/veaui3cqCSlD3uMfk4AG6SwIsYInGL7AiEA0uuLfUgThKBZwHYQ9ZDK8PD+AirR37MciCIpwyCM1yk=
+2024-10-16 14:46:28.600 [main] INFO  com.tongji.airrowing.auth.DruidTests - publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIacMyR5NZR7D/xTVv3NlBXz2Hf6RvqSQOjwAo7yS+jD4spuMaYnI8i1yIV37JV2+VCwG+YJqiLXGH3uFe+wUVsCAwEAAQ==
+2024-10-16 14:46:28.606 [main] INFO  com.tongji.airrowing.auth.DruidTests - password: SdVTBEC497DGPyUJNfKyMLLJ62QtJaqcHiKHBBT9xi6fa1Ji/ktNIv6JcMhKn/X+5SulCzku95kH1eeCDaH3oA==
+2024-10-16 14:46:28.650 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.tongji.airrowing.auth.airrowingAuthApplicationTests]: airrowingAuthApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-10-16 14:46:28.653 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.tongji.airrowing.auth.airrowingAuthApplication for test class com.tongji.airrowing.auth.airrowingAuthApplicationTests
+2024-10-16 14:46:28.729 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==>  Preparing: delete from t_user where id = ?
+2024-10-16 14:46:29.126 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 14:46:29.154 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - <==    Updates: 1
+2024-10-16 14:46:29.167 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==>  Preparing: insert into t_user (id, username, create_time, update_time) values (?, ?, ?, ?)
+2024-10-16 14:46:29.341 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==> Parameters: null, 犬小哈(String), 2024-10-16T14:46:29.166583500(LocalDateTime), 2024-10-16T14:46:29.166583500(LocalDateTime)
+2024-10-16 14:46:29.361 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - <==    Updates: 1
+2024-10-16 14:46:29.374 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==>  Preparing: select id, username, create_time, update_time from t_user where id = ?
+2024-10-16 14:46:29.387 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 14:46:29.438 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - <==      Total: 0
+2024-10-16 14:46:29.493 [main] INFO  c.tongji.airrowing.auth.airrowingAuthApplicationTests - User: null
+2024-10-16 14:46:29.506 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==>  Preparing: update t_user set username = ?, create_time = ?, update_time = ? where id = ?
+2024-10-16 14:46:29.513 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==> Parameters: 又济济(String), null, 2024-10-16T14:46:29.506299200(LocalDateTime), 1(Long)
+2024-10-16 14:46:29.518 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - <==    Updates: 0
+2024-10-16 14:46:29.619 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 14:46:29.639 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 15:08:27.159 [main] INFO  com.tongji.airrowing.auth.DruidTests - Starting DruidTests using Java 17.0.11 with PID 19544 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 15:08:27.163 [main] INFO  com.tongji.airrowing.auth.DruidTests - The following 1 profile is active: "dev"
+2024-10-16 15:08:30.940 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 15:08:32.139 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 15:08:33.093 [main] INFO  com.tongji.airrowing.auth.DruidTests - Started DruidTests in 7.063 seconds (process running for 9.02)
+2024-10-16 15:08:35.016 [main] INFO  com.tongji.airrowing.auth.DruidTests - privateKey: MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAiD5FSghumunuiaBqaCBNF9OT8+cVHjkM74AyQDBtKpnJAR/H4begaoYJhSc9/4SflF4ME0BQOqgdENqYzWTjSQIDAQABAkAZ6gpA4iizk5JZICeNJbO0N/y41Dfal0xkE7S7K9rf0rfExkWxn91+t4h+Wz10ho8achyKRdWAMi6MeIGvMLQZAiEA1m5pGIC0fIyVIZAb+ytfTX2HHjAvsCr0It3JNhsYnW0CIQCip55+Vugxiu5i0fZo8Hcv/4vrV8HHgF0Povs+ahU/zQIhAJdxl0w06kPkzhbMPtbfxQlnlJxfj+6uB4rwdQF/lZzpAiBmDgXD/4NwkltAZbzV2wrtcsm3wDg1lLTPOtOpNaZfgQIhAMPxoUkXUi9I8eyiLexwRX5gmVIQPlmArGuL2pWj8XbV
+2024-10-16 15:08:35.034 [main] INFO  com.tongji.airrowing.auth.DruidTests - publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIg+RUoIbprp7omgamggTRfTk/PnFR45DO+AMkAwbSqZyQEfx+G3oGqGCYUnPf+En5ReDBNAUDqoHRDamM1k40kCAwEAAQ==
+2024-10-16 15:08:35.039 [main] INFO  com.tongji.airrowing.auth.DruidTests - password: IVLAz1v3Na29KQ7pcitpuQCOBR9/e4s9iYWo8YdHZ1GaaWo5/J2/cPFXOy092tuvu5w8a2oXojE9KfOrr4HOUg==
+2024-10-16 15:08:35.136 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.tongji.airrowing.auth.airrowingAuthApplicationTests]: airrowingAuthApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-10-16 15:08:35.141 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.tongji.airrowing.auth.airrowingAuthApplication for test class com.tongji.airrowing.auth.airrowingAuthApplicationTests
+2024-10-16 15:08:35.334 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==>  Preparing: delete from t_user where id = ?
+2024-10-16 15:08:35.751 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:08:35.759 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - <==    Updates: 0
+2024-10-16 15:08:35.770 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==>  Preparing: insert into t_user (id, username, create_time, update_time) values (?, ?, ?, ?)
+2024-10-16 15:08:35.931 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==> Parameters: null, 犬小哈(String), 2024-10-16T15:08:35.770011800(LocalDateTime), 2024-10-16T15:08:35.770011800(LocalDateTime)
+2024-10-16 15:08:35.951 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - <==    Updates: 1
+2024-10-16 15:08:35.968 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==>  Preparing: select id, username, create_time, update_time from t_user where id = ?
+2024-10-16 15:08:35.985 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:08:36.049 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - <==      Total: 0
+2024-10-16 15:08:36.108 [main] INFO  c.tongji.airrowing.auth.airrowingAuthApplicationTests - User: null
+2024-10-16 15:08:36.119 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==>  Preparing: update t_user set username = ?, create_time = ?, update_time = ? where id = ?
+2024-10-16 15:08:36.124 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==> Parameters: 又济济(String), null, 2024-10-16T15:08:36.119652(LocalDateTime), 1(Long)
+2024-10-16 15:08:36.125 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - <==    Updates: 0
+2024-10-16 15:08:36.192 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 15:08:36.205 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 15:18:42.091 [main] INFO  com.tongji.airrowing.auth.DruidTests - Starting DruidTests using Java 17.0.11 with PID 30508 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 15:18:42.095 [main] INFO  com.tongji.airrowing.auth.DruidTests - The following 1 profile is active: "dev"
+2024-10-16 15:18:45.736 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 15:18:46.883 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 15:18:47.632 [main] INFO  com.tongji.airrowing.auth.DruidTests - Started DruidTests in 6.433 seconds (process running for 8.344)
+2024-10-16 15:18:49.358 [main] INFO  com.tongji.airrowing.auth.DruidTests - privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAvyZ1O7qvi/qWKKoFLVj3JVVYlOqMLddD4cyQQsLC3wOGFDJMMlCCRWapiaUpeMXUV9nXfHndgzs8n6xD55huRQIDAQABAkAiqinGfDOLshT7KOIpeCHRzmlzEBn90jUIRN3AjatjX+LuScOtdX20o01CeeiUtJfDjs2r766Gch45TCL5txKBAiEA5XJyn12MGHa0Szmc22LYKoeaa8vkS3XZ3dRq7mptO6UCIQDVRW+XTt9bItS0efd7Mr6szeM/QkWE0vjjVzZ41sBmIQIgER67Ar0eKO0igsJnu87iRjocAZMTE7ZVbUHeQK/cOqkCIEKAyG9SNOviTJmKftV32WVhPj93lt34O4wIof/EV3KBAiEArSpD8HnytmTkKUfy8WrfIGfvdQ/+/0gOsTbb/SNZut0=
+2024-10-16 15:18:49.374 [main] INFO  com.tongji.airrowing.auth.DruidTests - publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAL8mdTu6r4v6liiqBS1Y9yVVWJTqjC3XQ+HMkELCwt8DhhQyTDJQgkVmqYmlKXjF1FfZ13x53YM7PJ+sQ+eYbkUCAwEAAQ==
+2024-10-16 15:18:49.380 [main] INFO  com.tongji.airrowing.auth.DruidTests - password: Liv09VzU8c3AoNVpFlBVy59ko8BHnB3C5tSInuTKSIC8w7V6lGb7oNR2NuG9+c+ilpchnNrHLuJCv0t4uxSO7g==
+2024-10-16 15:18:49.465 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.tongji.airrowing.auth.airrowingAuthApplicationTests]: airrowingAuthApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-10-16 15:18:49.470 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.tongji.airrowing.auth.airrowingAuthApplication for test class com.tongji.airrowing.auth.airrowingAuthApplicationTests
+2024-10-16 15:18:49.651 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==>  Preparing: delete from t_user where id = ?
+2024-10-16 15:18:50.023 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:18:50.039 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - <==    Updates: 0
+2024-10-16 15:18:50.052 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==>  Preparing: insert into t_user (id, username, create_time, update_time) values (?, ?, ?, ?)
+2024-10-16 15:18:50.170 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==> Parameters: null, 犬小哈(String), 2024-10-16T15:18:50.051560300(LocalDateTime), 2024-10-16T15:18:50.051560300(LocalDateTime)
+2024-10-16 15:18:50.181 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - <==    Updates: 1
+2024-10-16 15:18:50.195 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==>  Preparing: select id, username, create_time, update_time from t_user where id = ?
+2024-10-16 15:18:50.204 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:18:50.272 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - <==      Total: 0
+2024-10-16 15:18:50.305 [main] INFO  c.tongji.airrowing.auth.airrowingAuthApplicationTests - User: null
+2024-10-16 15:18:50.317 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==>  Preparing: update t_user set username = ?, create_time = ?, update_time = ? where id = ?
+2024-10-16 15:18:50.322 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==> Parameters: 又济济(String), null, 2024-10-16T15:18:50.317215500(LocalDateTime), 1(Long)
+2024-10-16 15:18:50.324 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - <==    Updates: 0
+2024-10-16 15:18:50.390 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 15:18:50.415 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 15:22:23.392 [main] INFO  com.tongji.airrowing.auth.DruidTests - Starting DruidTests using Java 17.0.11 with PID 5620 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 15:22:23.394 [main] INFO  com.tongji.airrowing.auth.DruidTests - The following 1 profile is active: "dev"
+2024-10-16 15:22:27.201 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 15:22:28.391 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 15:22:29.590 [main] INFO  com.tongji.airrowing.auth.DruidTests - Started DruidTests in 7.065 seconds (process running for 9.142)
+2024-10-16 15:22:31.203 [main] INFO  com.tongji.airrowing.auth.DruidTests - privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA1Qpum67VvTp5dhiUMJMSxbcl4SKWDhj91bFBmFxk1IzOf2JHtmNreTOZwXnVh3LwC8WVdTm+HeWlzsWUhR2f9QIDAQABAkAYjXA77wVhHpka/DAv/PM/6CCsdrD2hPjUJO6bYaKZQD8QVR5E+VSh235uiGhCv+Yv5CzJxZeVEtfoWyKogQMtAiEA/p/h3lo0g6JnallGWj4RvMBN+3bYKghHbhDxT6EsNk8CIQDWMQtBDqXRh9IbV0slfv6JoSN0PN5UYBorBkruTc34ewIgdPDTGH7PTYGCA3ra78k/9jNP3WTYpH1G6QsI+Oxp1MsCIQC5WxPMJurkWk8+jdpgBngrjiDqVEpqZgf/N6DcfMRDxQIgC2Q94weTPeVPbfHs1B2XEaQyEK+CuYAU9d/Z3wXmMwk=
+2024-10-16 15:22:31.211 [main] INFO  com.tongji.airrowing.auth.DruidTests - publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANUKbpuu1b06eXYYlDCTEsW3JeEilg4Y/dWxQZhcZNSMzn9iR7Zja3kzmcF51Ydy8AvFlXU5vh3lpc7FlIUdn/UCAwEAAQ==
+2024-10-16 15:22:31.216 [main] INFO  com.tongji.airrowing.auth.DruidTests - password: FdPUlNhBn90+GHUto/rlX46ffsNk148BOdZb/CjfxsXl/DsPR+D98bsa6h77PwPJxgNt5L1Hk9yO9hr/h+fiiw==
+2024-10-16 15:22:31.276 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.tongji.airrowing.auth.airrowingAuthApplicationTests]: airrowingAuthApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-10-16 15:22:31.281 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.tongji.airrowing.auth.airrowingAuthApplication for test class com.tongji.airrowing.auth.airrowingAuthApplicationTests
+2024-10-16 15:22:31.453 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==>  Preparing: delete from t_user where id = ?
+2024-10-16 15:22:31.754 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:22:31.764 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - <==    Updates: 0
+2024-10-16 15:22:31.777 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==>  Preparing: insert into t_user (id, username, create_time, update_time) values (?, ?, ?, ?)
+2024-10-16 15:22:31.927 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==> Parameters: null, 犬小哈(String), 2024-10-16T15:22:31.776963400(LocalDateTime), 2024-10-16T15:22:31.776963400(LocalDateTime)
+2024-10-16 15:22:31.961 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - <==    Updates: 1
+2024-10-16 15:22:31.982 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==>  Preparing: select id, username, create_time, update_time from t_user where id = ?
+2024-10-16 15:22:31.993 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:22:32.046 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - <==      Total: 0
+2024-10-16 15:22:32.070 [main] INFO  c.tongji.airrowing.auth.airrowingAuthApplicationTests - User: null
+2024-10-16 15:22:32.084 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==>  Preparing: update t_user set username = ?, create_time = ?, update_time = ? where id = ?
+2024-10-16 15:22:32.090 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==> Parameters: 又济济(String), null, 2024-10-16T15:22:32.083788700(LocalDateTime), 1(Long)
+2024-10-16 15:22:32.092 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - <==    Updates: 0
+2024-10-16 15:22:32.184 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 15:22:32.200 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 15:23:07.373 [main] INFO  com.tongji.airrowing.auth.DruidTests - Starting DruidTests using Java 17.0.11 with PID 32300 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 15:23:07.376 [main] INFO  com.tongji.airrowing.auth.DruidTests - The following 1 profile is active: "dev"
+2024-10-16 15:23:10.986 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 15:23:12.407 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 15:23:13.832 [main] INFO  com.tongji.airrowing.auth.DruidTests - Started DruidTests in 7.392 seconds (process running for 9.496)
+2024-10-16 15:23:16.575 [main] INFO  com.tongji.airrowing.auth.DruidTests - privateKey: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAqZ6Es1+Run1S/SH8ymjtwgINOFYDr9mM+ctk6PDa7LYP2oEvwmwUuZRt48pKxWSot3LnmXGM0d8EnU5U102CgwIDAQABAkAAxqMQXjLz3NgaiyN1gMgtp5+MQjoSfaoU1Nn2UtVXJdz0pw9ODeBBgNp1AL3XZfyTbeF7vCqEsh0OtKhw1khhAiEAyEfy4T3wDShGI/ZOovvPMgA4Q0qu9MpQV4+9lfbMy5MCIQDYztQFfzTkEBo8C+IV/f1R/AFVkHfqziXbUXAAYCQjUQIhAMDlCvgFP35sm6FnSLWQ8S2nKIknFPqPIHI07tPQr84hAiBpz9+YYzH8EIPNRHtuAkzM43H/QYfVGBFPzZodBM7+UQIgRDMlOEZBNpcBObPXSFKQapXhpKUQ6eHAv57TBnXculY=
+2024-10-16 15:23:16.593 [main] INFO  com.tongji.airrowing.auth.DruidTests - publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKmehLNfkbp9Uv0h/Mpo7cICDThWA6/ZjPnLZOjw2uy2D9qBL8JsFLmUbePKSsVkqLdy55lxjNHfBJ1OVNdNgoMCAwEAAQ==
+2024-10-16 15:23:16.602 [main] INFO  com.tongji.airrowing.auth.DruidTests - password: cc0PbyEzQCnfd4qR/9aUEc8cDOSZCrqoTj6JYMsGe139BIsR6rV4eXZW/KfQYNbJVGccx5SAowEkbQzxxlBoEA==
+2024-10-16 15:23:16.726 [main] INFO  o.s.t.c.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.tongji.airrowing.auth.airrowingAuthApplicationTests]: airrowingAuthApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-10-16 15:23:16.730 [main] INFO  o.s.b.t.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.tongji.airrowing.auth.airrowingAuthApplication for test class com.tongji.airrowing.auth.airrowingAuthApplicationTests
+2024-10-16 15:23:16.871 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==>  Preparing: delete from t_user where id = ?
+2024-10-16 15:23:17.581 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:23:17.599 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.deleteByPrimaryKey - <==    Updates: 0
+2024-10-16 15:23:17.615 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==>  Preparing: insert into t_user (id, username, create_time, update_time) values (?, ?, ?, ?)
+2024-10-16 15:23:17.901 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - ==> Parameters: null, 犬小哈(String), 2024-10-16T15:23:17.615040200(LocalDateTime), 2024-10-16T15:23:17.615040200(LocalDateTime)
+2024-10-16 15:23:17.923 [main] DEBUG c.t.airrowing.auth.domain.mapper.UserDOMapper.insert - <==    Updates: 1
+2024-10-16 15:23:17.950 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==>  Preparing: select id, username, create_time, update_time from t_user where id = ?
+2024-10-16 15:23:17.974 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - ==> Parameters: 1(Long)
+2024-10-16 15:23:18.077 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.selectByPrimaryKey - <==      Total: 0
+2024-10-16 15:23:18.105 [main] INFO  c.tongji.airrowing.auth.airrowingAuthApplicationTests - User: null
+2024-10-16 15:23:18.124 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==>  Preparing: update t_user set username = ?, create_time = ?, update_time = ? where id = ?
+2024-10-16 15:23:18.131 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - ==> Parameters: 又济济(String), null, 2024-10-16T15:23:18.123575700(LocalDateTime), 1(Long)
+2024-10-16 15:23:18.140 [main] DEBUG c.t.m.a.d.mapper.UserDOMapper.updateByPrimaryKey - <==    Updates: 0
+2024-10-16 15:23:18.243 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 15:23:18.260 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 16:00:30.275 [main] INFO  com.tongji.airrowing.auth.RedisTests - Starting RedisTests using Java 17.0.11 with PID 32116 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 16:00:30.279 [main] INFO  com.tongji.airrowing.auth.RedisTests - The following 1 profile is active: "dev"
+2024-10-16 16:00:32.210 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-10-16 16:00:32.219 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-10-16 16:00:32.320 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 0 Redis repository interfaces.
+2024-10-16 16:00:36.178 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 16:00:37.686 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 16:00:38.838 [main] INFO  com.tongji.airrowing.auth.RedisTests - Started RedisTests in 9.609 seconds (process running for 11.18)
+2024-10-16 16:00:41.503 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 16:00:41.527 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-10-16 16:59:22.476 [main] INFO  c.tongji.airrowing.auth.ThreadPoolTaskExecutorTests - Starting ThreadPoolTaskExecutorTests using Java 17.0.11 with PID 14808 (started by YuenLil in G:\university\SE\airrowing\airrowing-auth)
+2024-10-16 16:59:22.477 [main] INFO  c.tongji.airrowing.auth.ThreadPoolTaskExecutorTests - The following 1 profile is active: "dev"
+2024-10-16 16:59:23.509 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2024-10-16 16:59:23.512 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-10-16 16:59:23.572 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 19 ms. Found 0 Redis repository interfaces.
+2024-10-16 16:59:25.967 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - Init DruidDataSource
+2024-10-16 16:59:26.730 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-10-16 16:59:27.556 [main] INFO  c.tongji.airrowing.auth.ThreadPoolTaskExecutorTests - Started ThreadPoolTaskExecutorTests in 5.62 seconds (process running for 6.737)
+2024-10-16 16:59:28.265 [AuthExecutor-1] INFO  c.tongji.airrowing.auth.ThreadPoolTaskExecutorTests - 异步线程中说: 犬小哈专栏
+2024-10-16 16:59:28.282 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2024-10-16 16:59:28.292 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

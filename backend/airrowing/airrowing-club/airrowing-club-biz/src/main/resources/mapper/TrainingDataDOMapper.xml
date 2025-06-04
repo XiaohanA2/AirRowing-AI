@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.airrowing.club.biz.domain.mapper.TrainingDataDOMapper">
+  <resultMap id="BaseResultMap" type="com.tongji.airrowing.club.biz.domain.dataobject.TrainingDataDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="training_date" jdbcType="DATE" property="trainingDate" />
+    <result column="duration" jdbcType="INTEGER" property="duration" />
+    <result column="distance" jdbcType="DECIMAL" property="distance" />
+    <result column="calories" jdbcType="DECIMAL" property="calories" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, training_date, duration, distance, calories, `status`, create_time, 
+    update_time, `type`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_training_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_training_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.TrainingDataDO">
+    insert into t_training_data (id, user_id, training_date, 
+      duration, distance, calories, 
+      `status`, create_time, update_time, 
+      `type`)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{trainingDate,jdbcType=DATE}, 
+      #{duration,jdbcType=INTEGER}, #{distance,jdbcType=DECIMAL}, #{calories,jdbcType=DECIMAL}, 
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.TrainingDataDO">
+    insert into t_training_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="trainingDate != null">
+        training_date,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="distance != null">
+        distance,
+      </if>
+      <if test="calories != null">
+        calories,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="trainingDate != null">
+        #{trainingDate,jdbcType=DATE},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="distance != null">
+        #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="calories != null">
+        #{calories,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.TrainingDataDO">
+    update t_training_data
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="trainingDate != null">
+        training_date = #{trainingDate,jdbcType=DATE},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="distance != null">
+        distance = #{distance,jdbcType=DECIMAL},
+      </if>
+      <if test="calories != null">
+        calories = #{calories,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tongji.airrowing.club.biz.domain.dataobject.TrainingDataDO">
+    update t_training_data
+    set user_id = #{userId,jdbcType=BIGINT},
+      training_date = #{trainingDate,jdbcType=DATE},
+      duration = #{duration,jdbcType=INTEGER},
+      distance = #{distance,jdbcType=DECIMAL},
+      calories = #{calories,jdbcType=DECIMAL},
+      `status` = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      `type` = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectTrainingDataByConditions" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_training_data
+    WHERE user_id = #{userId,jdbcType=BIGINT}
+    <if test="type != null">
+      AND `type` = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="startDate != null">
+      AND training_date &gt;= #{startDate,jdbcType=DATE}
+    </if>
+    <if test="endDate != null">
+      AND training_date &lt;= #{endDate,jdbcType=DATE}
+    </if>
+    LIMIT #{offset}, #{limit}
+  </select>
+
+  <select id="countTrainingDataByConditions" resultType="int">
+    SELECT COUNT(*)
+    FROM t_training_data
+    WHERE user_id = #{userId,jdbcType=BIGINT}
+    <if test="type != null">
+      AND `type` = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="startDate != null">
+      AND training_date &gt;= #{startDate,jdbcType=DATE}
+    </if>
+    <if test="endDate != null">
+      AND training_date &lt;= #{endDate,jdbcType=DATE}
+    </if>
+  </select>
+
+  <select id="selectTrainingDataStatistics" resultType="java.util.Map">
+    SELECT
+    SUM(duration) AS totalDuration,   -- 总时长
+    AVG(duration) AS avgDuration,     -- 平均时长
+    MAX(duration) AS maxDuration,     -- 最大时长
+    MIN(duration) AS minDuration,     -- 最小时长
+    SUM(distance) AS totalDistance,   -- 总距离
+    AVG(distance) AS avgDistance,     -- 平均距离
+    MAX(distance) AS maxDistance,     -- 最大距离
+    MIN(distance) AS minDistance,     -- 最小距离
+    SUM(calories) AS totalCalories,   -- 总卡路里
+    AVG(calories) AS avgCalories      -- 平均卡路里
+    FROM t_training_data
+    WHERE user_id = #{userId,jdbcType=BIGINT}
+    <if test="type != null">
+      AND type = #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="startDate != null">
+      AND training_date &gt;= #{startDate,jdbcType=DATE}
+    </if>
+    <if test="endDate != null">
+      AND training_date &lt;= #{endDate,jdbcType=DATE}
+    </if>
+  </select>
+
+
+</mapper>

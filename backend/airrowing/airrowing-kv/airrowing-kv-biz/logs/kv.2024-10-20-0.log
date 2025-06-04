@@ -1,0 +1,81 @@
+2024-10-20 22:32:09.750 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:32:09.850 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:32:11.534 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:32:11.571 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:32:11.573 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - The following 1 profile is active: "dev"
+2024-10-20 22:32:12.375 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2024-10-20 22:32:12.464 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 67 ms. Found 0 Reactive Cassandra repository interfaces.
+2024-10-20 22:32:12.474 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2024-10-20 22:32:12.507 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 1 Cassandra repository interfaces.
+2024-10-20 22:32:12.892 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=fcf466b3-e297-3023-ae07-ce1ad2406603
+2024-10-20 22:32:13.674 [main] INFO  c.d.o.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.15.0
+2024-10-20 22:32:14.366 [s0-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:32:14.893 [s1-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:32:17.299 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:32:18.941 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:32:18.995 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - Started CassandraTests in 10.874 seconds (process running for 12.027)
+2024-10-20 22:34:51.130 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:34:51.222 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:34:52.859 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:34:52.896 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:34:52.898 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - The following 1 profile is active: "dev"
+2024-10-20 22:34:53.497 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2024-10-20 22:34:53.551 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 0 Reactive Cassandra repository interfaces.
+2024-10-20 22:34:53.561 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2024-10-20 22:34:53.593 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 31 ms. Found 1 Cassandra repository interfaces.
+2024-10-20 22:34:53.938 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=fcf466b3-e297-3023-ae07-ce1ad2406603
+2024-10-20 22:34:54.568 [main] INFO  c.d.o.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.15.0
+2024-10-20 22:34:55.297 [s0-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:34:55.741 [s1-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:34:58.040 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:34:59.500 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:34:59.528 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - Started CassandraTests in 10.012 seconds (process running for 11.16)
+2024-10-20 22:36:00.844 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:00.933 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:02.556 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:02.588 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:02.589 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - The following 1 profile is active: "dev"
+2024-10-20 22:36:03.285 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2024-10-20 22:36:03.322 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 29 ms. Found 0 Reactive Cassandra repository interfaces.
+2024-10-20 22:36:03.328 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2024-10-20 22:36:03.345 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 1 Cassandra repository interfaces.
+2024-10-20 22:36:03.589 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=fcf466b3-e297-3023-ae07-ce1ad2406603
+2024-10-20 22:36:03.979 [main] INFO  c.d.o.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.15.0
+2024-10-20 22:36:04.561 [s0-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:36:04.961 [s1-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:36:07.101 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:36:08.578 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:36:08.611 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - Started CassandraTests in 9.388 seconds (process running for 10.439)
+2024-10-20 22:36:19.739 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:19.816 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:21.465 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:21.533 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:36:21.536 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - The following 1 profile is active: "dev"
+2024-10-20 22:36:22.197 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2024-10-20 22:36:22.240 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 37 ms. Found 0 Reactive Cassandra repository interfaces.
+2024-10-20 22:36:22.246 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2024-10-20 22:36:22.264 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 18 ms. Found 1 Cassandra repository interfaces.
+2024-10-20 22:36:22.528 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=fcf466b3-e297-3023-ae07-ce1ad2406603
+2024-10-20 22:36:22.944 [main] INFO  c.d.o.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.15.0
+2024-10-20 22:36:23.568 [s0-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:36:23.958 [s1-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:36:26.302 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:36:27.688 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:36:27.727 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - Started CassandraTests in 9.543 seconds (process running for 10.783)
+2024-10-20 22:36:28.568 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - 查询结果：{"id":"bb4c4387-5a0b-48ff-b7c5-a837318f5413","content":"代码测试笔记内容更新"}
+2024-10-20 22:37:39.439 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:37:39.563 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:37:41.215 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:37:41.255 [main] WARN  com.alibaba.nacos.client.logging.NacosLogging - Load Logback Configuration of Nacos fail, message: Could not initialize Logback Nacos logging from classpath:nacos-logback.xml
+2024-10-20 22:37:41.256 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - The following 1 profile is active: "dev"
+2024-10-20 22:37:42.088 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Cassandra repositories in DEFAULT mode.
+2024-10-20 22:37:42.157 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53 ms. Found 0 Reactive Cassandra repository interfaces.
+2024-10-20 22:37:42.164 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Cassandra repositories in DEFAULT mode.
+2024-10-20 22:37:42.189 [main] INFO  o.s.d.r.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 23 ms. Found 1 Cassandra repository interfaces.
+2024-10-20 22:37:42.539 [main] INFO  o.springframework.cloud.context.scope.GenericScope - BeanFactory id=fcf466b3-e297-3023-ae07-ce1ad2406603
+2024-10-20 22:37:43.191 [main] INFO  c.d.o.driver.internal.core.DefaultMavenCoordinates - DataStax Java driver for Apache Cassandra(R) (com.datastax.oss:java-driver-core) version 4.15.0
+2024-10-20 22:37:43.940 [s0-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:37:44.338 [s1-admin-0] INFO  com.datastax.oss.driver.internal.core.time.Clock - Using native clock for microsecond precision
+2024-10-20 22:37:46.737 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:37:48.371 [main] INFO  org.springframework.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-10-20 22:37:48.421 [main] INFO  com.tongji.airrowing.kv.biz.CassandraTests - Started CassandraTests in 10.638 seconds (process running for 11.819)

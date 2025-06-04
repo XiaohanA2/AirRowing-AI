@@ -1,0 +1,19 @@
+version: '3'
+services:
+  airrowing-auth:
+    image: airrowing-auth:latest
+    container_name: airrowing-auth
+    ports:
+      - "8080:8080"  # 将宿主机的8080端口映射到容器的8080端口
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_REDIS_HOST=127.0.0.1
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_PASSWORD=Led647716
+      - SPRING_CLOUD_NACOS_CONFIG_SERVER_ADDR=http://127.0.0.1:8848
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'  # 限制容器的 CPU 使用
+          memory: 500M  # 限制容器的内存使用
