@@ -102,10 +102,24 @@ const menus = [
         ]
     },
     {
-        'name': '训练分析',
+        'name': '训练管理',
         'icon': 'DataAnalysis',
         'isCustomIcon': false,
-        'path': '/main/training/analysis'
+        'path': '/main/training',
+        'children': [
+            {
+                'name': '训练分析',
+                'icon': 'TrendCharts',
+                'isCustomIcon': false,
+                'path': '/main/training/analysis',
+            },
+            {
+                'name': '姿态分析',
+                'icon': 'VideoCameraFilled',
+                'isCustomIcon': false,
+                'path': '/main/training/pose-analysis',
+            },
+        ]
     },
     {
         'name': '个人信息',
@@ -129,7 +143,6 @@ const menus = [
 .el-sub-menu__title:hover {
     background-color: #ffffff10;
 }
-
 
 .el-menu-item.is-active {
     background-color: #409eff10;

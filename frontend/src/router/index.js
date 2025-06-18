@@ -6,6 +6,7 @@ import Login from '@/pages/login.vue'
 import NoteList from '@/pages/note/list.vue'
 import NoteDetail from '@/pages/note/detail.vue'
 import TrainingAnalysis from '@/pages/training/analysis.vue'
+import PoseAnalysis from '@/pages/training/pose-analysis.vue'  // 新增姿态分析页面导入
 import UserProfile from '@/pages/user/profile.vue'
 import UserView from '@/pages/user/view.vue'
 import Welcome from '@/pages/home/welcome.vue'
@@ -91,6 +92,16 @@ const routes = [
                     title: '训练分析'
                 }
             },
+            // 新增姿态分析路由
+            {
+                path: 'training/pose-analysis',
+                name: 'pose-analysis',
+                component: PoseAnalysis,
+                meta: {
+                    title: '姿态分析',
+                    requiresAuth: true  // 如果需要登录验证
+                }
+            },
             {
                 path: "note/list",
                 component: NoteList,
@@ -128,7 +139,22 @@ router.beforeEach((to, from, next) => {
         next('/main/welcome')
         return
     }
-    // ... 其他路由守卫逻辑 ...
+    
+    // 设置页面标题
+    if (to.meta.title) {
+        document.title = to.meta.title
+    }
+    
+    // 这里可以添加登录验证逻辑
+    // if (to.meta.requiresAuth) {
+    //     // 检查用户是否已登录
+    //     const token = localStorage.getItem('token')
+    //     if (!token) {
+    //         next('/login')
+    //         return
+    //     }
+    // }
+    
     next()
 })
 

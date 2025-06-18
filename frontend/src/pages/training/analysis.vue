@@ -163,6 +163,11 @@
             <el-option label="有氧训练" value="有氧训练" />
           </el-select>
           <div class="action-group">
+            <el-button type="success" @click="goToPoseAnalysis">
+              <el-icon>
+                <VideoCameraFilled />
+              </el-icon>姿态分析
+            </el-button>
             <el-button type="primary" @click="handleAIAnalysis">
               <el-icon>
                 <Monitor />
@@ -228,6 +233,7 @@
 import { ref, onMounted, nextTick, computed, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { ElMessageBox } from 'element-plus/es'
+import { useRouter } from 'vue-router'
 import 'element-plus/es/components/base/style/css'
 import 'element-plus/es/components/message-box/style/css'
 import { useUserStore } from '@/stores/user'
@@ -239,7 +245,13 @@ import {
   deleteTrainingRecord
 } from '@/api/training_record'
 import axios from 'axios'
-import { PictureRounded, Plus, Refresh, Monitor } from '@element-plus/icons-vue'
+import { 
+  PictureRounded, 
+  Plus, 
+  Refresh, 
+  Monitor,
+  VideoCameraFilled
+} from '@element-plus/icons-vue'
 import * as echarts from 'echarts/core'
 import { PieChart, LineChart, BarChart, RadarChart } from 'echarts/charts'
 import {
@@ -263,10 +275,11 @@ echarts.use([
   CanvasRenderer
 ])
 
-// 获取用户状态
+// 获取用户状态和路由
 const userStore = useUserStore()
+const router = useRouter()
 
-// 训练历史记录
+// 原有的状态变量
 const trainingHistory = ref([])
 const uploadForm = ref({
   type: '赛艇训练',
@@ -290,7 +303,7 @@ const pageSize = ref(10)
 const totalRecords = ref(0)
 const selectedTraining = ref(null)
 const formRef = ref(null)
-const currentTrainingType = ref('all')  // 默认显示所有类型
+const currentTrainingType = ref('all')
 const startDate = ref(null)
 const endDate = ref(null)
 const loading = ref(false)
@@ -298,12 +311,12 @@ const loading = ref(false)
 // 添加趋势统计数据
 const trendStats = ref({})
 
-// 添加趋势分析筛选相关的响应式变量
-const trendTrainingType = ref('赛艇训练') // 默认选择赛艇训练
+// 趋势分析筛选相关的响应式变量
+const trendTrainingType = ref('赛艇训练')
 const trendStartDate = ref(null)
 const trendEndDate = ref(null)
 
-// 添加图表引用
+// 图表引用
 const intensityChartRef = ref(null)
 const progressChartRef = ref(null)
 const timeDistributionChartRef = ref(null)
@@ -317,7 +330,35 @@ let timeDistributionChart = null
 let goalCompletionChart = null
 let comparisonChart = null
 
-// 添加日期验证和处理函数
+// 文件预览URL的响应式变量
+const previewUrl = ref('')
+const previewType = ref('')
+
+// 计算属性
+const trendStatItems = computed(() => {
+  const stats = trendStats.value
+  return [
+    {
+      value: `${Math.floor((stats.totalDuration || 0) / 60)}h${(stats.totalDuration || 0) % 60}m`,
+      label: '总训练时长'
+    },
+    {
+      value: `${(stats.totalDistance || 0).toFixed(1)}km`,
+      label: '总训练距离'
+    },
+    {
+      value: `${(stats.avgCalories || 0).toFixed(0)}`,
+      label: '平均卡路里'
+    }
+  ]
+})
+
+// 跳转到姿态分析页面
+const goToPoseAnalysis = () => {
+  router.push('/training/pose-analysis')
+}
+
+// 日期验证和处理函数
 const disableStartDate = (time) => {
   if (endDate.value) {
     return time.getTime() > new Date(endDate.value).getTime()
@@ -332,8 +373,21 @@ const disableEndDate = (time) => {
   return false
 }
 
+const disableTrendStartDate = (time) => {
+  if (trendEndDate.value) {
+    return time.getTime() > new Date(trendEndDate.value).getTime()
+  }
+  return false
+}
+
+const disableTrendEndDate = (time) => {
+  if (trendStartDate.value) {
+    return time.getTime() < new Date(trendStartDate.value).getTime()
+  }
+  return false
+}
+
 const handleDateChange = () => {
-  // 验证日期是否有效
   if (startDate.value && endDate.value) {
     const start = new Date(startDate.value).getTime()
     const end = new Date(endDate.value).getTime()
@@ -343,7 +397,10 @@ const handleDateChange = () => {
       return
     }
   }
+  refreshHistory()
+}
 
+const handleTrainingTypeChange = () => {
   refreshHistory()
 }
 
@@ -409,41 +466,30 @@ const refreshHistory = async () => {
       endDate: endDate.value || undefined
     }
 
-    console.log('Sending query params:', queryParams)
-
     const res = await queryTrainingRecords(queryParams)
-    console.log('Query response:', res)
 
     if (res && res.data) {
-      console.log('Processing training data:', res.data)
-      // 将数据按时间倒序排列
       const sortedList = [...res.data.list].sort((a, b) => {
         return new Date(b.trainingDate) - new Date(a.trainingDate)
       })
 
-      trainingHistory.value = sortedList.map(record => {
-        console.log('Processing record:', record)
-        return {
-          id: record.id,
-          trainingDate: record.trainingDate,
-          duration: Number(record.duration || 0),
-          distance: Number(record.distance || 0),
-          calories: Number(record.calories || 0),
-          type: record.type || '未知类型'
-        }
-      })
+      trainingHistory.value = sortedList.map(record => ({
+        id: record.id,
+        trainingDate: record.trainingDate,
+        duration: Number(record.duration || 0),
+        distance: Number(record.distance || 0),
+        calories: Number(record.calories || 0),
+        type: record.type || '未知类型'
+      }))
 
       totalRecords.value = Number(res.data.total || 0)
       pageSize.value = Number(res.data.size || 10)
       currentPage.value = Number(res.data.page || 1)
 
-      console.log('Processed training history:', trainingHistory.value)
-
       if (trainingHistory.value.length === 0) {
         ElMessage.info('暂无训练记录')
       }
     } else {
-      console.warn('Invalid response format:', res)
       trainingHistory.value = []
       totalRecords.value = 0
       ElMessage.warning('获取训练记录失败')
@@ -468,7 +514,6 @@ const handlePageChange = async (page) => {
 const handleAIAnalysis = async () => {
   try {
     isLoading.value = true
-    // 获取训练统计数据
     const statsParams = {
       type: currentTrainingType.value === 'all' ? undefined : currentTrainingType.value,
       startDate: startDate.value || undefined,
@@ -481,7 +526,6 @@ const handleAIAnalysis = async () => {
       throw new Error(statsRes.message || '获取训练统计数据失败')
     }
 
-    // 构建发送给AI的消息
     const statsData = statsRes.data
     const aiPrompt = `
       请根据以下赛艇训练数据进行分析并给出建议：
@@ -495,14 +539,12 @@ const handleAIAnalysis = async () => {
       - 配速变化：${statsData.paceChange ? statsData.paceChange + '秒' : '-'}
     `
 
-    // 调用AI接口
     const response = await axios.post('/ai/chat', {
       user_id: userStore.userInfo.id,
       question: aiPrompt
     })
 
     if (response.data.success) {
-      // 添加AI回复到聊天记录
       chatMessages.value.push({
         content: response.data.data,
         type: 'ai',
@@ -545,7 +587,6 @@ const handleSubmitTraining = async () => {
     if (res && (res.success || typeof res === 'string')) {
       ElMessage.success(selectedTraining.value ? '更新成功' : '添加成功')
       uploadDialogVisible.value = false
-      // 重置表单
       uploadForm.value = {
         type: '赛艇训练',
         trainingDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
@@ -555,7 +596,7 @@ const handleSubmitTraining = async () => {
       }
       formRef.value.resetFields()
       selectedTraining.value = null
-      currentTrainingType.value = 'all'  // 重置训练类型筛选
+      currentTrainingType.value = 'all'
       await refreshHistory()
       await fetchStatistics()
     } else {
@@ -567,14 +608,8 @@ const handleSubmitTraining = async () => {
   }
 }
 
-// 添加文件预览URL的响应式变量
-const previewUrl = ref('')
-const previewType = ref('')  // 'image' 或 'video'
-
-// 修改handleUpload函数
 const handleUpload = async (file) => {
   try {
-    // 只检查文件类型
     const isImage = file.type.startsWith('image/')
     const isVideo = file.type.startsWith('video/')
 
@@ -583,11 +618,9 @@ const handleUpload = async (file) => {
       return false
     }
 
-    // 创建本地预览URL
     previewUrl.value = URL.createObjectURL(file)
     previewType.value = isImage ? 'image' : 'video'
 
-    // 显示预览消息
     chatMessages.value.push({
       content: '',
       type: 'user',
@@ -597,7 +630,6 @@ const handleUpload = async (file) => {
     })
     scrollToBottom()
 
-    // 自动触发AI分析
     await sendMessage(true)
   } catch (error) {
     console.error('文件预览失败:', error)
@@ -606,12 +638,10 @@ const handleUpload = async (file) => {
   return false
 }
 
-// 修改sendMessage函数
 const sendMessage = async (isMediaAnalysis = false) => {
   if ((!chatInput.value.trim() && !isMediaAnalysis) || isLoading.value) return
 
   if (!isMediaAnalysis) {
-    // 普通文本消息
     chatMessages.value.push({
       content: chatInput.value,
       type: 'user',
@@ -619,7 +649,6 @@ const sendMessage = async (isMediaAnalysis = false) => {
     })
   }
 
-  // 构造用户问题
   let userQuestion = ''
   if (isMediaAnalysis) {
     userQuestion = '作为一名专业的赛艇教练，请对以下赛艇训练姿势进行分析和指导：\n\n' +
@@ -648,7 +677,6 @@ const sendMessage = async (isMediaAnalysis = false) => {
   try {
     isLoading.value = true
     
-    // 调用AI接口
     const response = await axios.post('/ai/chat', {
       user_id: userStore.userInfo.id,
       question: userQuestion
@@ -665,7 +693,6 @@ const sendMessage = async (isMediaAnalysis = false) => {
     })
     scrollToBottom()
 
-    // 清理预览URL
     if (previewUrl.value) {
       URL.revokeObjectURL(previewUrl.value)
       previewUrl.value = ''
@@ -679,7 +706,6 @@ const sendMessage = async (isMediaAnalysis = false) => {
   }
 }
 
-// 滚动到底部
 const scrollToBottom = () => {
   setTimeout(() => {
     const scrollbar = chatScrollbar.value
@@ -689,58 +715,10 @@ const scrollToBottom = () => {
   }, 100)
 }
 
-// 清空聊天记录
 const clearChat = () => {
   chatMessages.value = []
 }
 
-// 刷新分析报告
-const refreshAnalysis = async () => {
-  try {
-    const res = await getTrainingStatistics({
-      type: 'rowing',
-      startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],  // 最近7天
-      endDate: new Date().toISOString().split('T')[0]
-    })
-
-    if (res.success && res.data) {
-      // 使用实际的统计数据生成报告
-      // ... 处理统计数据的逻辑
-    } else {
-      analysisContent.value = `
-            <h3>本周训练分析报告</h3>
-            <p>您本周共完成5次训练，总距离26.5公里，平均配速2:05。相比上周：</p>
-            <ul>
-              <li>训练频次增加1次</li>
-              <li>总距离提升15%</li>
-              <li>平均配速提升3秒</li>
-            </ul>
-            <h4>技术分析</h4>
-            <p>根据您的训练数据，我们发现：</p>
-            <ul>
-              <li>起划阶段发力更加平稳</li>
-              <li>收放比例保持在1:2左右，符合标准要求</li>
-              <li>长距离训练中后半程配速波动减小</li>
-            </ul>
-            <h4>建议</h4>
-            <ol>
-              <li>可以适当增加高强度间歇训练的比例</li>
-              <li>建议每周安排1-2次专门的技术训练</li>
-              <li>注意恢复训练的质量，避免过度疲劳</li>
-            </ol>
-        `
-    }
-  } catch (error) {
-    ElMessage.error('获取分析报告失败')
-  }
-}
-
-// 添加训练类型名称映射函数
-const getTrainingTypeName = (type) => {
-  return type || '未知类型'
-}
-
-// 修改日期格式化函数
 const formatDate = (dateString) => {
   if (!dateString) return ''
   try {
@@ -760,12 +738,10 @@ const formatDate = (dateString) => {
   }
 }
 
-// 显示上传对话框
 const showUploadDialog = () => {
   uploadDialogVisible.value = true
 }
 
-// 删除训练记录
 const handleDeleteTraining = async (id) => {
   try {
     await ElMessageBox.confirm('确定要删除这条训练记录吗？', '提示', {
@@ -779,7 +755,6 @@ const handleDeleteTraining = async (id) => {
 
     if (res.success) {
       ElMessage.success(res.data || '删除成功')
-      // 刷新数据
       await refreshHistory()
       await fetchStatistics()
     } else {
@@ -795,39 +770,8 @@ const handleDeleteTraining = async (id) => {
   }
 }
 
-// 添加表单验证规则
-const formRules = {
-  type: [{ required: true, message: '请选择训练类型', trigger: 'change' }],
-  trainingDate: [{ required: true, message: '请选择训练日期', trigger: 'change' }],
-  duration: [{ required: true, message: '请输入训练时长', trigger: 'blur' }],
-  distance: [{ required: true, message: '请输入训练距离', trigger: 'blur' }]
-}
-
-// 在对话框关闭时重置表单
-const handleDialogClose = () => {
-  formRef.value?.resetFields()
-  selectedTraining.value = null
-}
-
-// 添加趋势分析日期验证函数
-const disableTrendStartDate = (time) => {
-  if (trendEndDate.value) {
-    return time.getTime() > new Date(trendEndDate.value).getTime()
-  }
-  return false
-}
-
-const disableTrendEndDate = (time) => {
-  if (trendStartDate.value) {
-    return time.getTime() < new Date(trendStartDate.value).getTime()
-  }
-  return false
-}
-
-// 修改趋势分析筛选条件变化处理函数
 const handleTrendFilterChange = async () => {
   try {
-    // 验证日期是否有效
     if (trendStartDate.value && trendEndDate.value) {
       const start = new Date(trendStartDate.value).getTime()
       const end = new Date(trendEndDate.value).getTime()
@@ -844,18 +788,12 @@ const handleTrendFilterChange = async () => {
       endDate: trendEndDate.value || undefined
     }
 
-    console.log('Fetching trend stats with params:', params)
-
     const res = await getTrainingStatistics(params)
-    console.log('Trend stats response:', res)
 
     if (res && res.success) {
-      console.log('Setting trend stats:', res.data)
       trendStats.value = res.data || getDefaultTrendStats()
-      // 更新图表
       initCharts()
     } else {
-      console.warn('Invalid trend stats response:', res)
       trendStats.value = getDefaultTrendStats()
       if (!res.success) {
         throw new Error(res.message || '获取统计数据失败')
@@ -868,7 +806,6 @@ const handleTrendFilterChange = async () => {
   }
 }
 
-// 获取默认的趋势统计数据
 const getDefaultTrendStats = () => ({
   totalDuration: 0,
   avgDistance: 0,
@@ -882,7 +819,7 @@ const getDefaultTrendStats = () => ({
   avgDuration: 0
 })
 
-// 初始化训练强度分布图
+// 图表初始化方法
 const initIntensityChart = (data) => {
   if (!intensityChartRef.value) return
 
@@ -935,7 +872,6 @@ const initIntensityChart = (data) => {
   intensityChart.setOption(option)
 }
 
-// 初始化训练进展趋势图
 const initProgressChart = (data) => {
   if (!progressChartRef.value) return
 
@@ -1002,7 +938,6 @@ const initProgressChart = (data) => {
   progressChart.setOption(option)
 }
 
-// 初始化训练时间分布图
 const initTimeDistributionChart = (data) => {
   if (!timeDistributionChartRef.value) return
 
@@ -1044,7 +979,6 @@ const initTimeDistributionChart = (data) => {
   timeDistributionChart.setOption(option)
 }
 
-// 初始化目标完成度图
 const initGoalCompletionChart = (data) => {
   if (!goalCompletionChartRef.value) return
 
@@ -1087,93 +1021,42 @@ const initGoalCompletionChart = (data) => {
   goalCompletionChart.setOption(option)
 }
 
-// 初始化训练数据对比图
-const initComparisonChart = (data) => {
-  if (!comparisonChartRef.value) return
-
-  comparisonChart = echarts.init(comparisonChartRef.value)
-  const option = {
-    title: {
-      text: '训练数据周期对比',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'axis'
-    },
-    legend: {
-      data: ['本周期', '上个周期'],
-      top: 30
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'category',
-      data: ['训练时长', '训练距离', '消耗卡路里', '平均配速', '训练次数']
-    },
-    yAxis: {
-      type: 'value',
-      name: '完成百分比'
-    },
-    series: [
-      {
-        name: '本周期',
-        type: 'bar',
-        data: [120, 110, 105, 95, 115]
-      },
-      {
-        name: '上个周期',
-        type: 'bar',
-        data: [100, 100, 100, 100, 100]
-      }
-    ]
-  }
-  comparisonChart.setOption(option)
-}
-
-// 初始化所有图表
 const initCharts = () => {
   nextTick(() => {
     initIntensityChart(trendStats.value)
     initProgressChart(trendStats.value)
     initTimeDistributionChart(trendStats.value)
     initGoalCompletionChart(trendStats.value)
-    initComparisonChart(trendStats.value)
   })
 }
 
-// 监听窗口大小变化，重绘图表
 window.addEventListener('resize', () => {
   intensityChart?.resize()
   progressChart?.resize()
   timeDistributionChart?.resize()
   goalCompletionChart?.resize()
-  comparisonChart?.resize()
 })
 
-// 在组件卸载时销毁图表实例
 onUnmounted(() => {
   intensityChart?.dispose()
   progressChart?.dispose()
   timeDistributionChart?.dispose()
   goalCompletionChart?.dispose()
-  comparisonChart?.dispose()
+  
+  // 清理媒体预览URL
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value)
+  }
 })
 
-// 修改表格列的显示
 const formatDuration = (minutes) => {
   if (!minutes) return '0分钟'
-  // 将分钟数四舍五入到两位小数
   minutes = Number(minutes.toFixed(2))
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = (minutes % 60).toFixed(2)
   return hours > 0 ? `${hours}小时${remainingMinutes}分钟` : `${remainingMinutes}分钟`
 }
 
-// 修改页面初始化逻辑
 onMounted(async () => {
   loading.value = true
   try {
@@ -1182,7 +1065,7 @@ onMounted(async () => {
       fetchStatistics(),
       handleTrendFilterChange()
     ])
-    // 添加初始AI欢迎消息
+    
     chatMessages.value = [
       {
         content: "你好！我是你的AI训练助手。我可以帮你分析训练数据，提供专业建议。有什么我可以帮你的吗？",
@@ -1190,7 +1073,7 @@ onMounted(async () => {
         time: new Date().toLocaleTimeString()
       }
     ]
-    // 初始化图表
+    
     initCharts()
   } catch (error) {
     console.error('初始化失败:', error)
@@ -1214,7 +1097,7 @@ onMounted(async () => {
 .content-wrapper {
   display: flex;
   gap: 24px;
-  min-height: 600px; /* 设置最小高度，确保内容对齐 */
+  min-height: 600px;
 }
 
 /* 左侧主面板样式 */
@@ -1223,7 +1106,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  min-width: 0; /* 防止flex子项溢出 */
+  min-width: 0;
 }
 
 /* 右侧AI助手面板样式 */
@@ -1234,29 +1117,18 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  height: 1030px; /* 固定高度，与左侧内容对齐 */
-  flex-shrink: 0; /* 防止被压缩 */
+  height: 1030px;
+  flex-shrink: 0;
 }
 
 /* 训练记录表格区域样式 */
 .records-section {
-  width: 100%; /* 横向铺满 */
+  width: 100%;
   background: #fff;
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-  margin-top: auto; /* 自动调整顶部间距 */
-}
-
-@media (max-width: 1200px) {
-  .content-wrapper {
-    flex-direction: column;
-  }
-
-  .ai-panel {
-    width: 100%;
-    height: 500px;
-  }
+  margin-top: auto;
 }
 
 /* 统计卡片样式 */
@@ -1369,7 +1241,7 @@ onMounted(async () => {
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-left: auto; /* 将按钮组推到右侧 */
+  margin-left: auto;
 }
 
 .filter-item {
