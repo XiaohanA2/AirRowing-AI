@@ -38,6 +38,7 @@ class AnalysisRequest(BaseModel):
 
 @app.post("/api/analyze-pose")
 async def analyze_pose(request: AnalysisRequest):
+    print("request received:", request)
     try:
         prompt = build_prompt(request.pose_data)
         response = await call_deepseek_api(prompt)

@@ -6,9 +6,9 @@
         <h2>训练姿态识别分析</h2>
         <div class="model-selector">
           <el-radio-group v-model="selectedModel" size="small">
-            <el-radio-button label="OpenPose">OpenPose模型</el-radio-button>
+<!--            <el-radio-button label="OpenPose">OpenPose模型</el-radio-button>-->
             <el-radio-button label="MediaPipe">MediaPipe模型</el-radio-button>
-            <el-radio-button label="AlphaPose">AlphaPose模型</el-radio-button>
+<!--            <el-radio-button label="AlphaPose">AlphaPose模型</el-radio-button>-->
           </el-radio-group>
         </div>
       </div>
@@ -80,7 +80,7 @@
                 <el-button type="info" size="small" @click="resetAnalysis">
                   重新分析
                 </el-button>
-                <el-button type="primary" size="small" @click="generatePoseReport">
+                <el-button type="primary" size="small" @click="sendMessage(true)">
                   生成分析报告
                 </el-button>
               </div>
@@ -231,201 +231,245 @@ const poseMetrics = ref([
   }
 ])
 
-// 模拟关键点数据
-const mockKeypoints = [
-  // 头部关键点
-  { x: 200, y: 50, type: 'head', confidence: 0.9 },
-  // 躯干关键点
-  { x: 200, y: 120, type: 'body', confidence: 0.95 },
-  { x: 180, y: 100, type: 'body', confidence: 0.88 },
-  { x: 220, y: 100, type: 'body', confidence: 0.92 },
-  { x: 200, y: 180, type: 'body', confidence: 0.87 },
-  // 四肢关键点
-  { x: 150, y: 140, type: 'limbs', confidence: 0.85 },
-  { x: 250, y: 140, type: 'limbs', confidence: 0.89 },
-  { x: 120, y: 200, type: 'limbs', confidence: 0.82 },
-  { x: 280, y: 200, type: 'limbs', confidence: 0.86 },
-  { x: 180, y: 250, type: 'limbs', confidence: 0.91 },
-  { x: 220, y: 250, type: 'limbs', confidence: 0.88 }
-]
+const poseKeypoints = ref([])
 
-// 姿态识别相关方法
+// 上传并识别图片
 const handlePoseUpload = async (file) => {
   try {
     const isImage = file.type.startsWith('image/')
-    const isVideo = file.type.startsWith('video/')
-
-    if (!isImage && !isVideo) {
-      ElMessage.error('只支持图片或视频文件')
+    if (!isImage) {
+      ElMessage.error('只支持图片文件')
       return false
     }
-
-    const maxSize = 50 * 1024 * 1024 // 50MB
+    const maxSize = 50 * 1024 * 1024
     if (file.size > maxSize) {
       ElMessage.error('文件大小不能超过50MB')
       return false
     }
-
     uploadedMedia.value = file
-    mediaType.value = isImage ? 'image' : 'video'
-    
-    // 清理之前的预览URL
-    if (mediaPreviewUrl.value) {
-      URL.revokeObjectURL(mediaPreviewUrl.value)
-    }
+    mediaType.value = 'image'
+    if (mediaPreviewUrl.value) URL.revokeObjectURL(mediaPreviewUrl.value)
     mediaPreviewUrl.value = URL.createObjectURL(file)
-
-    // 延迟执行以确保 DOM 更新
     await nextTick()
-    
-    // 开始姿态识别处理
     poseAnalyzing.value = true
-    setTimeout(() => {
-      drawPoseKeypoints()
-      poseAnalyzing.value = false
-      ElMessage.success(`使用 ${selectedModel.value} 模型识别完成`)
-      
-      // 自动生成初始分析报告
-      generateInitialReport()
-    }, 2000)
 
+    // 调用后端API
+    const formData = new FormData()
+    formData.append('image', file)
+
+    console.log('正在发送请求到后端...')
+    const response = await fetch('http://localhost:5000/pose', {
+      method: 'POST',
+      body: formData
+    })
+
+    console.log('收到后端响应:', response.status, response.statusText)
+    // 先检查响应状态
+    if (!response.ok) {
+      throw new Error(`请求失败: ${response.status} ${response.statusText}`)
+    }
+
+    // 尝试解析 JSON
+    let result
+    try {
+      result = await response.json()
+      console.log('后端返回数据:', result)
+    } catch (jsonError) {
+      console.error('JSON 解析错误:', jsonError)
+      throw new Error('解析响应数据失败')
+    }
+
+    // 检查返回的数据结构
+    if (!result.landmarks) {
+      console.error('返回数据格式不正确:', result)
+      throw new Error('返回数据格式不正确，缺少 landmarks')
+    }
+
+    // landmarks 转换为 keypoints 数组
+    poseKeypoints.value = Object.entries(result.landmarks).map(([type, arr]) => {
+
+      // 确保数组值可以转换为数字
+      const x = parseFloat(arr[0])
+      const y = parseFloat(arr[1])
+      if (isNaN(x) || isNaN(y)) {
+        console.warn(`坐标值无效: ${type}, 值: ${arr}`)
+      }
+      return {
+        x: x * canvasWidth.value,
+        // 根据实际情况决定是否需要坐标系转换
+        y: y * canvasHeight.value,
+        z: parseFloat(arr[2]) || 0,
+        type,
+        confidence: 1
+      }
+    })
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity
+    poseKeypoints.value.forEach(point => {
+      minX = Math.min(minX, point.x)
+      maxX = Math.max(maxX, point.x)
+      minY = Math.min(minY, point.y)
+      maxY = Math.max(maxY, point.y)
+    })
+
+// 确保所有点都在可见范围内，调整点位坐标
+    const padding = 20 // 边距
+    if (minX < padding || minY < padding ||
+        maxX > canvasWidth.value - padding ||
+        maxY > canvasHeight.value - padding) {
+
+      // 计算缩放因子和位移量
+      const scaleX = (canvasWidth.value - 2 * padding) / (maxX - minX)
+      const scaleY = (canvasHeight.value - 2 * padding) / (maxY - minY)
+      const scale = Math.min(scaleX, scaleY, 1) // 取较小值，且不放大
+
+      // 应用缩放和居中
+      poseKeypoints.value = poseKeypoints.value.map(point => ({
+        ...point,
+        x: (point.x - minX) * scale + padding,
+        y: (point.y - minY) * scale + padding
+      }))
+    }
+
+    console.log('处理后的关键点数据:', poseKeypoints.value)
+
+    if (poseKeypoints.value.length === 0) {
+      throw new Error('未能识别出有效的姿态关键点')
+    }
+
+    // 绘制关键点
+    drawPoseKeypoints()
+    poseAnalyzing.value = false
+    ElMessage.success('姿态识别完成')
+    await sendMessage(true)
   } catch (error) {
     console.error('姿态识别上传失败:', error)
-    ElMessage.error('文件处理失败，请重试')
+    ElMessage.error(`文件处理失败: ${error.message}`)
     poseAnalyzing.value = false
   }
   return false
 }
 
+canvasWidth.value = 500 // 增加宽度
+canvasHeight.value = 400 // 增加高度
+
 const drawPoseKeypoints = () => {
   if (!poseCanvas.value) return
-
   const canvas = poseCanvas.value
   const ctx = canvas.getContext('2d')
-  
-  // 清空画布
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  
+
+  // 定义不同类型关键点的颜色
+  const colorMap = {
+    // 头部相关
+    'NOSE': '#ff6b6b',
+    'LEFT_EYE': '#ff6b6b',
+    'RIGHT_EYE': '#ff6b6b',
+    'LEFT_EAR': '#ff6b6b',
+    'RIGHT_EAR': '#ff6b6b',
+    'LEFT_EYE_INNER': '#ff6b6b',
+    'RIGHT_EYE_INNER': '#ff6b6b',
+    'LEFT_EYE_OUTER': '#ff6b6b',
+    'RIGHT_EYE_OUTER': '#ff6b6b',
+    'MOUTH_LEFT': '#ff6b6b',
+    'MOUTH_RIGHT': '#ff6b6b',
+
+    // 躯干相关
+    'LEFT_SHOULDER': '#4ecdc4',
+    'RIGHT_SHOULDER': '#4ecdc4',
+    'LEFT_HIP': '#4ecdc4',
+    'RIGHT_HIP': '#4ecdc4',
+
+    // 四肢相关
+    'LEFT_ELBOW': '#45b7d1',
+    'RIGHT_ELBOW': '#45b7d1',
+    'LEFT_WRIST': '#45b7d1',
+    'RIGHT_WRIST': '#45b7d1',
+    'LEFT_KNEE': '#45b7d1',
+    'RIGHT_KNEE': '#45b7d1',
+    'LEFT_ANKLE': '#45b7d1',
+    'RIGHT_ANKLE': '#45b7d1',
+    'LEFT_HEEL': '#45b7d1',
+    'RIGHT_HEEL': '#45b7d1',
+    'LEFT_FOOT_INDEX': '#45b7d1',
+    'RIGHT_FOOT_INDEX': '#45b7d1',
+    'LEFT_THUMB': '#45b7d1',
+    'RIGHT_THUMB': '#45b7d1',
+    'LEFT_INDEX': '#45b7d1',
+    'RIGHT_INDEX': '#45b7d1',
+    'LEFT_PINKY': '#45b7d1',
+    'RIGHT_PINKY': '#45b7d1'
+  }
+
   // 绘制关键点
-  mockKeypoints.forEach(point => {
+  poseKeypoints.value.forEach(point => {
     ctx.beginPath()
-    ctx.arc(point.x, point.y, 6, 0, 2 * Math.PI)
-    
-    // 根据关键点类型设置颜色
-    switch (point.type) {
-      case 'head':
-        ctx.fillStyle = '#ff6b6b'
-        break
-      case 'body':
-        ctx.fillStyle = '#4ecdc4'
-        break
-      case 'limbs':
-        ctx.fillStyle = '#45b7d1'
-        break
-      default:
-        ctx.fillStyle = '#999'
-    }
-    
+    ctx.arc(point.x, point.y, 4, 0, 2 * Math.PI) // 减小点的大小
+    // 根据点类型设置颜色
+    ctx.fillStyle = colorMap[point.type] || '#45b7d1'
     ctx.fill()
-    
-    // 绘制置信度边框
-    if (point.confidence > 0.8) {
+    ctx.strokeStyle = '#ffffff'
+    ctx.lineWidth = 1 // 减小线宽
+    ctx.stroke()
+
+    const shortName = point.type.split('_').pop() || point.type // 只显示最后一部分
+    ctx.font = '8px Arial' // 减小字体
+    ctx.fillStyle = '#303133'
+    // 根据点的位置调整标签位置，避免重叠
+    const labelX = point.x + 6
+    const labelY = point.y - 6
+    ctx.fillText(shortName, labelX, labelY)
+  })
+
+  // 绘制骨骼连接线
+  const connections = [
+    // 头部连接
+    ['NOSE', 'LEFT_EYE_INNER'],
+    ['LEFT_EYE_INNER', 'LEFT_EYE'],
+    ['LEFT_EYE', 'LEFT_EYE_OUTER'],
+    ['LEFT_EYE_OUTER', 'LEFT_EAR'],
+    ['NOSE', 'RIGHT_EYE_INNER'],
+    ['RIGHT_EYE_INNER', 'RIGHT_EYE'],
+    ['RIGHT_EYE', 'RIGHT_EYE_OUTER'],
+    ['RIGHT_EYE_OUTER', 'RIGHT_EAR'],
+
+    // 躯干连接
+    ['LEFT_SHOULDER', 'RIGHT_SHOULDER'],
+    ['LEFT_SHOULDER', 'LEFT_HIP'],
+    ['RIGHT_SHOULDER', 'RIGHT_HIP'],
+    ['LEFT_HIP', 'RIGHT_HIP'],
+
+    // 手臂连接
+    ['LEFT_SHOULDER', 'LEFT_ELBOW'],
+    ['LEFT_ELBOW', 'LEFT_WRIST'],
+    ['RIGHT_SHOULDER', 'RIGHT_ELBOW'],
+    ['RIGHT_ELBOW', 'RIGHT_WRIST'],
+
+    // 腿部连接
+    ['LEFT_HIP', 'LEFT_KNEE'],
+    ['LEFT_KNEE', 'LEFT_ANKLE'],
+    ['RIGHT_HIP', 'RIGHT_KNEE'],
+    ['RIGHT_KNEE', 'RIGHT_ANKLE']
+  ]
+
+  // 创建点位字典以便于查找
+  const pointDict = {}
+  poseKeypoints.value.forEach(point => {
+    pointDict[point.type] = point
+  })
+
+  // 绘制连接线
+  connections.forEach(([start, end]) => {
+    const startPoint = pointDict[start]
+    const endPoint = pointDict[end]
+    if (startPoint && endPoint) {
+      ctx.beginPath()
+      ctx.moveTo(startPoint.x, startPoint.y)
+      ctx.lineTo(endPoint.x, endPoint.y)
       ctx.strokeStyle = '#67c23a'
       ctx.lineWidth = 2
       ctx.stroke()
-    } else if (point.confidence > 0.6) {
-      ctx.strokeStyle = '#e6a23c'
-      ctx.lineWidth = 2
-      ctx.stroke()
-    } else {
-      ctx.strokeStyle = '#f56c6c'
-      ctx.lineWidth = 2
-      ctx.stroke()
     }
   })
-  
-  // 绘制骨骼连接线
-  const connections = [
-    [0, 1], [1, 2], [1, 3], [1, 4], // 头部到躯干
-    [4, 5], [4, 6], // 躯干到手臂
-    [5, 7], [6, 8], // 手臂延伸
-    [4, 9], [4, 10] // 躯干到腿部
-  ]
-  
-  ctx.strokeStyle = '#666'
-  ctx.lineWidth = 2
-  connections.forEach(([startIdx, endIdx]) => {
-    if (mockKeypoints[startIdx] && mockKeypoints[endIdx]) {
-      ctx.beginPath()
-      ctx.moveTo(mockKeypoints[startIdx].x, mockKeypoints[startIdx].y)
-      ctx.lineTo(mockKeypoints[endIdx].x, mockKeypoints[endIdx].y)
-      ctx.stroke()
-    }
-  })
-}
-
-const generateInitialReport = () => {
-  const initialReport = `🎯 姿态识别分析完成！
-
-检测模型：${selectedModel.value}
-识别置信度：${(mockKeypoints.reduce((sum, p) => sum + p.confidence, 0) / mockKeypoints.length * 100).toFixed(1)}%
-
-📊 快速评估：
-✅ 检测到 ${mockKeypoints.length} 个关键点
-${poseMetrics.value.map(m => `${m.status === 'good' || m.status === 'excellent' ? '✅' : '⚠️'} ${m.label}：${m.value}`).join('\n')}
-
-💡 如需详细分析报告，请点击"生成分析报告"按钮。`
-
-  chatMessages.value.push({
-    content: initialReport,
-    type: 'ai',
-    time: new Date().toLocaleTimeString()
-  })
-  scrollToBottom()
-}
-
-const generatePoseReport = async () => {
-  try {
-    const reportContent = `
-基于 ${selectedModel.value} 模型的详细姿态分析报告：
-
-🎯 整体评估：训练姿态良好，有改进空间
-
-📊 关键指标分析：
-• 身体姿态：${poseMetrics.value[0].value} - ${poseMetrics.value[0].suggestion}
-• 身体平衡：${poseMetrics.value[1].value} - ${poseMetrics.value[1].suggestion}
-• 动作流畅性：${poseMetrics.value[2].value} - ${poseMetrics.value[2].suggestion}
-• 动作节奏：${poseMetrics.value[3].value} - ${poseMetrics.value[3].suggestion}
-
-💡 专业改进建议：
-1. 注意保持身体重心稳定，避免左右摇摆
-2. 适当放慢动作节奏，确保每个动作到位
-3. 继续保持良好的身体姿态和动作流畅性
-4. 建议加强核心力量训练以提升稳定性
-
-🔍 技术细节：
-• 检测到 ${mockKeypoints.length} 个关键点
-• 平均置信度：${(mockKeypoints.reduce((sum, p) => sum + p.confidence, 0) / mockKeypoints.length * 100).toFixed(1)}%
-• 高置信度点位：${mockKeypoints.filter(p => p.confidence > 0.9).length} 个
-• 推荐继续练习以提升动作标准化程度
-
-📈 训练建议：
-• 建议每周进行2-3次姿态纠正训练
-• 可结合镜子练习，实时观察动作
-• 定期使用本系统进行姿态检测和分析
-    `
-
-    chatMessages.value.push({
-      content: reportContent,
-      type: 'ai',
-      time: new Date().toLocaleTimeString()
-    })
-    scrollToBottom()
-    ElMessage.success('详细分析报告已生成')
-  } catch (error) {
-    console.error('生成报告失败:', error)
-    ElMessage.error('生成报告失败，请重试')
-  }
 }
 
 const resetAnalysis = () => {
@@ -490,15 +534,16 @@ const sendMessage = async (isMediaAnalysis = false) => {
 
   try {
     isLoading.value = true
-    
+
     // 构建请求数据
     const requestData = {
       pose_data: {
-        keypoints: mockKeypoints,
+        keypoints: poseKeypoints["_rawValue"],
         model: selectedModel.value,
         user_id: userStore.userInfo.id
       },
-      question: isMediaAnalysis ? 
+
+      question: isMediaAnalysis ?
         '作为一名专业的赛艇教练，请对以下赛艇训练姿势进行分析和指导：\n\n' +
         '训练者目前的划桨姿势：\n' +
         '1. 起划阶段：\n' +
@@ -519,7 +564,7 @@ const sendMessage = async (isMediaAnalysis = false) => {
         '请从专业角度分析这些动作要点，指出存在的问题，并给出具体的改进建议。'
         : chatInput.value
     }
-
+    console.log('requestData', requestData["pose_data"]["keypoints"]["_rawValue"])
     // 调用Python后端API
     const response = await axios.post('http://localhost:8000/api/analyze-pose', requestData)
 

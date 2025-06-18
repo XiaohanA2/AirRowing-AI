@@ -3,7 +3,7 @@ import cv2
 import tempfile
 import os
 from mediapipe.python.solutions import pose as mp_pose
-
+from flask_cors import CORS
 
 class PoseTracker:
     landmark_names = [name for name in mp_pose.PoseLandmark.__members__.keys()]
@@ -42,7 +42,7 @@ class PoseTracker:
 
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/pose', methods=['POST'])
 def detect_pose():
     if 'image' not in request.files:
