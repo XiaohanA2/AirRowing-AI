@@ -355,7 +355,7 @@ const trendStatItems = computed(() => {
 
 // 跳转到姿态分析页面
 const goToPoseAnalysis = () => {
-  router.push('/training/pose-analysis')
+  router.push('/main/training/pose-analysis')
 }
 
 // 日期验证和处理函数
