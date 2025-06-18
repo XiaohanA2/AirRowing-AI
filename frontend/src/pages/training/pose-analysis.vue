@@ -488,45 +488,47 @@ const sendMessage = async (isMediaAnalysis = false) => {
     })
   }
 
-  let userQuestion = ''
-  if (isMediaAnalysis) {
-    userQuestion = '作为一名专业的赛艇教练，请对以下赛艇训练姿势进行分析和指导：\n\n' +
-      '训练者目前的划桨姿势：\n' +
-      '1. 起划阶段：\n' +
-      '   - 身体前倾约45度\n' +
-      '   - 手臂完全伸直\n' +
-      '   - 小腿略微前倾\n' +
-      '   - 脚掌紧贴踏板\n\n' +
-      '2. 驱动阶段：\n' +
-      '   - 腿部用力蹬伸\n' +
-      '   - 手臂开始弯曲时腿还未完全伸直\n' +
-      '   - 身体后仰约30度\n' +
-      '   - 划桨高度保持在胸部位置\n\n' +
-      '3. 收桨阶段：\n' +
-      '   - 手臂收至腹部位置\n' +
-      '   - 上身后仰\n' +
-      '   - 收放比例约为1:1.5\n' +
-      '   - 动作节奏较快\n\n' +
-      '请从专业角度分析这些动作要点，指出存在的问题，并给出具体的改进建议。'
-  } else {
-    userQuestion = chatInput.value
-  }
-  chatInput.value = ''
-
   try {
     isLoading.value = true
     
-    const response = await axios.post('/ai/chat', {
-      user_id: userStore.userInfo.id,
-      question: userQuestion
-    })
+    // 构建请求数据
+    const requestData = {
+      pose_data: {
+        keypoints: mockKeypoints,
+        model: selectedModel.value,
+        user_id: userStore.userInfo.id
+      },
+      question: isMediaAnalysis ? 
+        '作为一名专业的赛艇教练，请对以下赛艇训练姿势进行分析和指导：\n\n' +
+        '训练者目前的划桨姿势：\n' +
+        '1. 起划阶段：\n' +
+        '   - 身体前倾约45度\n' +
+        '   - 手臂完全伸直\n' +
+        '   - 小腿略微前倾\n' +
+        '   - 脚掌紧贴踏板\n\n' +
+        '2. 驱动阶段：\n' +
+        '   - 腿部用力蹬伸\n' +
+        '   - 手臂开始弯曲时腿还未完全伸直\n' +
+        '   - 身体后仰约30度\n' +
+        '   - 划桨高度保持在胸部位置\n\n' +
+        '3. 收桨阶段：\n' +
+        '   - 手臂收至腹部位置\n' +
+        '   - 上身后仰\n' +
+        '   - 收放比例约为1:1.5\n' +
+        '   - 动作节奏较快\n\n' +
+        '请从专业角度分析这些动作要点，指出存在的问题，并给出具体的改进建议。'
+        : chatInput.value
+    }
+
+    // 调用Python后端API
+    const response = await axios.post('http://localhost:8000/api/analyze-pose', requestData)
 
     if (!response.data.success) {
       throw new Error(response.data.message || '获取AI回复失败')
     }
 
     chatMessages.value.push({
-      content: response.data.data,
+      content: response.data.analysis,
       type: 'ai',
       time: new Date().toLocaleTimeString()
     })
@@ -542,6 +544,7 @@ const sendMessage = async (isMediaAnalysis = false) => {
     ElMessage.error('发送消息失败，请稍后重试')
   } finally {
     isLoading.value = false
+    chatInput.value = ''
   }
 }
 
