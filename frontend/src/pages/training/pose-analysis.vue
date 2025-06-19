@@ -8,6 +8,7 @@
           <el-radio-group v-model="selectedModel" size="small">
 <!--            <el-radio-button label="OpenPose">OpenPose模型</el-radio-button>-->
             <el-radio-button label="MediaPipe">MediaPipe模型</el-radio-button>
+            <el-radio-button label="PytorchModel">自研模型</el-radio-button>
 <!--            <el-radio-button label="AlphaPose">AlphaPose模型</el-radio-button>-->
           </el-radio-group>
         </div>
@@ -73,7 +74,7 @@
           </div>
 
           <!-- 姿态分析数据 -->
-          <div class="pose-metrics">
+          <div class="pose-metrics" v-if="selectedModel === 'MediaPipe'">
             <div class="metrics-header">
               <h4>姿态分析指标</h4>
               <div class="metrics-actions">
@@ -96,6 +97,45 @@
                   <div class="metric-label">{{ metric.label }}</div>
                   <div class="metric-value" :class="metric.status">{{ metric.value }}</div>
                   <div class="metric-suggestion">{{ metric.suggestion }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pose-metrics" v-if="selectedModel === 'PytorchModel'">
+            <div class="metrics-header">
+              <h4>姿态分析指标</h4>
+              <div class="metrics-actions">
+                <el-button type="info" size="small" @click="resetAnalysis">
+                  重新分析
+                </el-button>
+                <el-button type="primary" size="small" @click="sendMessage(true)">
+                  生成分析报告
+                </el-button>
+              </div>
+            </div>
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-content">
+                  <div class="metric-label"> 动作阶段 </div>
+                  <div class="metric-suggestion">{{ pytorchModelResponse.predicted_posture}}</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-content">
+                  <div class="metric-label"> 质量评分 </div>
+                  <div class="metric-suggestion">{{ pytorchModelResponse.quality_score }}</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-content">
+                  <div class="metric-label"> 动作建议 </div>
+                  <div class="metric-suggestion">{{ pytorchModelResponse.advice }}</div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-content">
+                  <div class="metric-label"> 关键角度 </div>
+                  <div class="metric-suggestion">{{ pytorchModelResponse.angles_and_distances }}</div>
                 </div>
               </div>
             </div>
@@ -233,6 +273,7 @@ const poseMetrics = ref([
 
 const poseKeypoints = ref([])
 
+const pytorchModelResponse = ref({})
 // 上传并识别图片
 const handlePoseUpload = async (file) => {
   try {
@@ -284,6 +325,16 @@ const handlePoseUpload = async (file) => {
       console.error('返回数据格式不正确:', result)
       throw new Error('返回数据格式不正确，缺少 landmarks')
     }
+
+
+    if(selectedModel.value === 'PytorchModel'){
+      const resp = await axios.post('http://localhost:8001/api/analyze-pose', result.landmarks)
+      pytorchModelResponse.value = resp.data
+      // console.log("自研分析结果:")
+      // console.log(response)
+      // console.log("自研分析结果结束:")
+    }
+
 
     // landmarks 转换为 keypoints 数组
     poseKeypoints.value = Object.entries(result.landmarks).map(([type, arr]) => {
