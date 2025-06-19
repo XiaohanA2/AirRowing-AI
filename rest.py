@@ -40,6 +40,7 @@ class PoseTracker:
 
         return pose_landmarks
 
+tracker = PoseTracker()  # 全局实例
 
 app = Flask(__name__)
 CORS(app)
@@ -53,31 +54,25 @@ def detect_pose():
         return jsonify({"error": "Empty image file"}), 401
 
     try:
-        # 保存图片到临时文件中，便于后续处理
-        temp_dir = tempfile.TemporaryDirectory()
-        temp_path = os.path.join(temp_dir.name, 'input.jpg')
-        file.save(temp_path)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = os.path.join(temp_dir, 'input.jpg')
+            file.save(temp_path)
+            image = cv2.imread(temp_path)
+            if image is None:
+                return jsonify({"error": "Failed to read image"}), 400
 
-        image = cv2.imread(temp_path)
-        if image is None:
-            return jsonify({"error": "Failed to read image"}), 400
+            with tracker:
+                landmarks = tracker.get_landmarks(image)
+            if landmarks is None:
+                return jsonify({"error": "No human detected in the image."}), 400
 
-        # 调用模型获取特征点坐标
-        landmarks = tracker.get_landmarks(image)
-        if landmarks is None:
-            return jsonify({"error": "No human detected in the image."}), 400
-
-        return jsonify({
-            "landmarks": landmarks
-        })
+            return jsonify({"landmarks": landmarks})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 if __name__ == '__main__':
-    with PoseTracker() as tracker:
-        app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 
 # 前端调用示例：
 # <template>
