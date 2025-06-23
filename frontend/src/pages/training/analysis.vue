@@ -91,57 +91,57 @@
       </div>
 
       <!-- 右侧AI助手面板 -->
-      <div class="ai-panel">
-        <div class="ai-header">
-          <h2>AI 训练助手</h2>
-          <el-button link @click="clearChat">清空对话</el-button>
-        </div>
+<!--      <div class="ai-panel">-->
+<!--        <div class="ai-header">-->
+<!--          <h2>AI 训练助手</h2>-->
+<!--          <el-button link @click="clearChat">清空对话</el-button>-->
+<!--        </div>-->
 
-        <div class="chat-container">
-          <el-scrollbar ref="chatScrollbar">
-            <div class="chat-messages">
-              <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.type]">
-                <div class="message-content">
-                  <template v-if="msg.mediaType">
-                    <div class="media-content">
-                      <img v-if="msg.mediaType === 'image'" :src="msg.mediaUrl" class="message-image" />
-                      <video v-if="msg.mediaType === 'video'" :src="msg.mediaUrl" controls class="message-video"></video>
-                    </div>
-                  </template>
-                  {{ msg.content }}
-                </div>
-                <div class="message-time">{{ msg.time }}</div>
-              </div>
-              <div v-if="isLoading" class="message ai loading-message">
-                <div class="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-          </el-scrollbar>
-        </div>
+<!--        <div class="chat-container">-->
+<!--          <el-scrollbar ref="chatScrollbar">-->
+<!--            <div class="chat-messages">-->
+<!--              <div v-for="(msg, index) in chatMessages" :key="index" :class="['message', msg.type]">-->
+<!--                <div class="message-content">-->
+<!--                  <template v-if="msg.mediaType">-->
+<!--                    <div class="media-content">-->
+<!--                      <img v-if="msg.mediaType === 'image'" :src="msg.mediaUrl" class="message-image" />-->
+<!--                      <video v-if="msg.mediaType === 'video'" :src="msg.mediaUrl" controls class="message-video"></video>-->
+<!--                    </div>-->
+<!--                  </template>-->
+<!--                  {{ msg.content }}-->
+<!--                </div>-->
+<!--                <div class="message-time">{{ msg.time }}</div>-->
+<!--              </div>-->
+<!--              <div v-if="isLoading" class="message ai loading-message">-->
+<!--                <div class="typing-indicator">-->
+<!--                  <span></span>-->
+<!--                  <span></span>-->
+<!--                  <span></span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </el-scrollbar>-->
+<!--        </div>-->
 
-        <div class="chat-input-area">
-          <el-upload class="media-upload" :show-file-list="false" :before-upload="handleUpload" accept="image/*,video/*">
-            <el-button class="upload-btn" type="primary" text>
-              <el-icon>
-                <PictureRounded />
-              </el-icon>
-            </el-button>
-          </el-upload>
-          <div class="input-wrapper">
-            <el-input v-model="chatInput" placeholder="输入问题，按回车发送" @keyup.enter="sendMessage">
-              <template #append>
-                <el-button type="primary" @click="sendMessage" :loading="isLoading">
-                  发送
-                </el-button>
-              </template>
-            </el-input>
-          </div>
-        </div>
-      </div>
+<!--        <div class="chat-input-area">-->
+<!--          <el-upload class="media-upload" :show-file-list="false" :before-upload="handleUpload" accept="image/*,video/*">-->
+<!--            <el-button class="upload-btn" type="primary" text>-->
+<!--              <el-icon>-->
+<!--                <PictureRounded />-->
+<!--              </el-icon>-->
+<!--            </el-button>-->
+<!--          </el-upload>-->
+<!--          <div class="input-wrapper">-->
+<!--            <el-input v-model="chatInput" placeholder="输入问题，按回车发送" @keyup.enter="sendMessage">-->
+<!--              <template #append>-->
+<!--                <el-button type="primary" @click="sendMessage" :loading="isLoading">-->
+<!--                  发送-->
+<!--                </el-button>-->
+<!--              </template>-->
+<!--            </el-input>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
     <!-- 训练记录表格 -->

@@ -328,13 +328,13 @@ const handlePoseUpload = async (file) => {
 
 
     if(selectedModel.value === 'PytorchModel'){
+      console.log("自研模型分析开始")
       const resp = await axios.post('http://localhost:8001/api/analyze-pose', result.landmarks)
       pytorchModelResponse.value = resp.data
       // console.log("自研分析结果:")
       // console.log(response)
       // console.log("自研分析结果结束:")
     }
-
 
     // landmarks 转换为 keypoints 数组
     poseKeypoints.value = Object.entries(result.landmarks).map(([type, arr]) => {
